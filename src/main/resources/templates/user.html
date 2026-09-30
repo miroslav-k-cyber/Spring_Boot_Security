@@ -1,11 +1,38 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://thymeleaf.org" lang="en">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>User Home Page</title>
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
 
+<!-- Кнопка Logout (Выполнение Пункта 6 ТЗ) -->
+<div style="float: right; margin: 10px;">
+    <form th:action="@{/logout}" th:method="POST">
+        <input type="submit" value="Logout" style="background-color: #f44336; color: white; padding: 8px 12px; border: none; cursor: pointer; border-radius: 4px;"/>
+    </form>
+</div>
+
+<h1>User Information Portal</h1>
+<h3>Welcome to your profile page!</h3>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Email (Username)</th>
+        <th>Age</th>
+    </tr>
+    <tr>
+        <!-- Выводим данные текущего вошедшего пользователя -->
+        <td th:text="${currentUser.id}"></td>
+        <td th:text="${currentUser.name}"></td>
+        <td th:text="${currentUser.lastName}"></td>
+        <td th:text="${currentUser.email}"></td>
+        <td th:text="${currentUser.age}"></td>
+    </tr>
+</table>
 
 </body>
 </html>

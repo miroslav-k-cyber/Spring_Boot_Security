@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+</head>
+<body>
+
+<!-- Кнопка Logout в самом верху страницы (Выполнение Пункта 6 ТЗ) -->
+<div style="float: right; margin: 10px;">
+    <form th:action="@{/logout}" th:method="POST">
+        <input type="submit" value="Logout" style="background-color: #f44336; color: white; padding: 8px 12px; border: none; cursor: pointer; border-radius: 4px;"/>
+    </form>
+</div>
+
+<h2>Edit User</h2>
+
+<!-- th:action изменен на @{/admin/update} -->
+<form th:method="POST" th:action="@{/admin/update}" th:object="${user}">
+    <!-- Скрытое поле для ID, чтобы не потерять его при обновлении -->
+    <input type="hidden" th:field="*{id}" />
+
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{name}" id="name" /><br/><br/>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" th:field="*{lastName}" id="lastName" /><br/><br/>
+
+    <label for="email">Email:</label>
+    <input type="text" th:field="*{email}" id="email" /><br/><br/>
+
+    <label for="age">Age:</label>
+    <input type="number" th:field="*{age}" id="age" /><br/><br/>
+
+    <!-- Добавили поле пароля, чтобы его можно было обновить при редактировании -->
+    <label for="password">Password:</label>
+    <input type="password" th:field="*{password}" id="password" required/><br/><br/>
+
+    <input type="submit" value="Update User"/>
+</form>
+
+<br/>
+<a th:href="@{/admin}">Cancel and Back</a>
+
+</body>
+</html>

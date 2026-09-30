@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Users</title>
+</head>
+<body>
+
+<!-- Кнопка Logout в самом верху страницы (Выполнение Пункта 6 ТЗ) -->
+<div style="float: right; margin: 10px;">
+    <form th:action="@{/logout}" th:method="POST">
+        <input type="submit" value="Logout" style="background-color: #f44336; color: white; padding: 8px 12px; border: none; cursor: pointer; border-radius: 4px;"/>
+    </form>
+</div>
+
+<h1>Admin Panel - Users List</h1>
+
+<!-- Изменили путь ссылки на создание пользователя: теперь /admin/new -->
+<a th:href="@{/admin/new}">Create New User</a>
+<br/><br/>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Age</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="u : ${users}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.name}"></td>
+        <td th:text="${u.lastName}"></td>
+        <td th:text="${u.email}"></td>
+        <td th:text="${u.age}"></td>
+
+        <td>
+            <!-- Изменили путь ссылки на редактирование: теперь /admin/edit -->
+            <a th:href="@{/admin/edit(id=${u.id})}">Edit</a> |
+
+            <!-- Изменили путь формы удаления: теперь /admin/delete -->
+            <form th:action="@{/admin/delete}" th:method="POST" style="display:inline;">
+                <input type="hidden" name="id" th:value="${u.id}"/>
+                <input type="submit" value="Delete" style="background-color: #e7e7e7; color: black; cursor: pointer;"/>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
