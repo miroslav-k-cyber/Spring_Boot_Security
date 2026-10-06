@@ -6,12 +6,13 @@
 </head>
 <body>
 
-<!-- Кнопка Logout (Выполнение Пункта 6 ТЗ) -->
+<!-- Кнопка Logout (Выполнение Пункта 6 ТЗ) --> <!-- Кнопка Logout с автоматической генерацией CSRF токена -->
 <div style="float: right; margin: 10px;">
-    <form th:action="@{/logout}" th:method="POST">
+    <form th:action="@{/logout}" method="post"> <!-- Обратите внимание: method="post" маленькими буквами без th: -->
         <input type="submit" value="Logout" style="background-color: #f44336; color: white; padding: 8px 12px; border: none; cursor: pointer; border-radius: 4px;"/>
     </form>
 </div>
+
 
 <h1>User Information Portal</h1>
 <h3>Welcome to your profile page!</h3>

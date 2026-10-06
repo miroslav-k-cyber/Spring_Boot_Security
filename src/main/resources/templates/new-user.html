@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Create New User</title>
 </head>
 <body>
 
-<!-- Кнопка Logout (Выполнение Пункта 6 ТЗ) -->
+<!-- Кнопка Logout с автоматической генерацией CSRF токена -->
 <div style="float: right; margin: 10px;">
-    <form th:action="@{/logout}" th:method="POST">
+    <form th:action="@{/logout}" method="post"> <!-- Обратите внимание: method="post" маленькими буквами без th: -->
         <input type="submit" value="Logout" style="background-color: #f44336; color: white; padding: 8px 12px; border: none; cursor: pointer; border-radius: 4px;"/>
     </form>
 </div>
 
 <h2>Create New User</h2>
 
-<!-- th:action изменен на @{/admin} -->
 <form th:method="POST" th:action="@{/admin}" th:object="${user}">
     <label for="name">Name:</label>
     <input type="text" th:field="*{name}" id="name" /><br/><br/>
@@ -29,15 +28,22 @@
     <label for="age">Age:</label>
     <input type="number" th:field="*{age}" id="age" /><br/><br/>
 
-    <!-- Добавили новое поле для пароля -->
     <label for="password">Password:</label>
     <input type="password" th:field="*{password}" id="password" required/><br/><br/>
+
+    <label for="roles">Roles:</label><br/>
+    <!-- Также используем name="roles" для привязки к List<Long> роли в saveUser -->
+    <select name="roles" id="roles" multiple="multiple" size="2" required style="width: 150px;">
+        <option value="1">ROLE_ADMIN</option>
+        <option value="2">ROLE_USER</option>
+    </select>
+    <br/><br/>
 
     <input type="submit" value="Add User"/>
 </form>
 
 <br/>
-<a th:href="@{/admin}">Back to Users List</a>
+<a th:href="@{/admin}">Cancel and Back</a>
 
 </body>
 </html>
