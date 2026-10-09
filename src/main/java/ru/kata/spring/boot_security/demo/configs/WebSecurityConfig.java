@@ -21,7 +21,6 @@ public class WebSecurityConfig {
         this.userDetailsService = userDetailsService;
     }
     
-    //  1(Цепочка фильтров)
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -61,7 +60,6 @@ public class WebSecurityConfig {
     // 3 (Шифровальщик паролей)
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // Для pre-project используем NoOp (без шифрования), как просит ТЗ
         return NoOpPasswordEncoder.getInstance();
     }
 }

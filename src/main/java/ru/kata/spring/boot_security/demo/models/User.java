@@ -13,6 +13,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -31,7 +33,7 @@ public class User implements UserDetails {
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
     
     public User() {
     }
@@ -97,54 +99,70 @@ public class User implements UserDetails {
         this.roles = roles;
     }
     
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+    
+    public void removeRole(Role role) {
+        this.roles.remove(role);
+    }
+    
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
+    
+    @Override
+    public String getPassword() {
+        return password;
+    }
+    
+    @Override
+    public String getUsername() {
+        return email;
+    }
+    
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+    
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+    
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+    
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+    
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                '}';
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        return email != null ? email.equals(user.email) : user.email == null;
+        return Objects.equals(email, user.email);
     }
     
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        return result;
-    }
-    
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles; // 1. Возвращаем вашу коллекцию ролей вместо null
-    }
-    
-    @Override
-    public String getPassword() {
-        return password; // 2. Возвращаем переменную пароля вместо null
-    }
-    
-    @Override
-    public String getUsername() {
-        return email; // 3. По ТЗ логином является email, возвращаем его вместо null
-    }
-    
-    @Override
-    public boolean isAccountNonExpired() {
-        return true; // 4. Меняем false на true (аккаунт активен)
-    }
-    
-    @Override
-    public boolean isAccountNonLocked() {
-        return true; // 5. Меняем false на true (аккаунт РАЗБЛОКИРОВАН!)
-    }
-    
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true; // 6. Меняем false на true (пароль не просрочен)
-    }
-    
-    @Override
-    public boolean isEnabled() {
-        return true; // 7. Меняем false на true (пользователь включен)
+        return Objects.hash(email);
     }
 }

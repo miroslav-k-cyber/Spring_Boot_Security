@@ -1,4 +1,5 @@
 package ru.kata.spring.boot_security.demo.controller;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,13 +7,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -50,34 +48,14 @@ public class AdminController {
     @PostMapping
     public String saveUser(@ModelAttribute("user") User user,
                            @RequestParam(value = "roles", required = false) List<Long> roleIds) {
-        Set<Role> rolesSet = new HashSet<>();
-        if (roleIds != null) {
-            for (Long id : roleIds) {
-                rolesSet.add(new Role(id, id == 1L ? "ROLE_ADMIN" : "ROLE_USER"));
-            }
-        }
-        user.setRoles(rolesSet);
-        userService.saveUser(user);
+        userService.saveUser(user, roleIds);
         return "redirect:/admin";
     }
     
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("user") User user,
                              @RequestParam(value = "roles", required = false) List<Long> roleIds) {
-        Set<Role> rolesSet = new HashSet<>();
-        if (roleIds != null) {
-            for (Long id : roleIds) {
-                rolesSet.add(new Role(id, id == 1L ? "ROLE_ADMIN" : "ROLE_USER"));
-            }
-        }
-        user.setRoles(rolesSet); // Привязываем созданный сет ролей к объекту
-        userService.updateUser(user);
+        userService.updateUser(user, roleIds);
         return "redirect:/admin";
     }
-
-
 }
-
-
-
-
